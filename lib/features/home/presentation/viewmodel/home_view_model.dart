@@ -1,0 +1,14 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:student_management_starter/features/home/presentation/navigator/home_navigator.dart';
+
+final dashboardViewModelProvider =
+StateNotifierProvider<HomeViewModel, void>((ref) {
+  final navigator = ref.read(homeViewNavigatorProvider);
+  return HomeViewModel(navigator);
+});
+
+class HomeViewModel extends StateNotifier<void> {
+  HomeViewModel(this.navigator) : super(null);
+  HomeNavigator navigator;
+
+}
