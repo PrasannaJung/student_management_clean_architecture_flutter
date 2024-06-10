@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:student_management_starter/features/batch/presentation/viewmodel/batch_view_model.dart';
 
-class BatchView extends StatelessWidget {
+class BatchView extends ConsumerStatefulWidget {
   const BatchView({super.key});
 
   @override
+  ConsumerState<BatchView> createState() => _BatchViewState();
+}
+
+class _BatchViewState extends ConsumerState<BatchView> {
+  @override
   Widget build(BuildContext context) {
+    var batchState = ref.watch(batchViewModelProvider);
     return SizedBox.expand(
       child: Padding(
         padding: const EdgeInsets.all(10),
