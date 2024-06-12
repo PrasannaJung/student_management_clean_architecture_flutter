@@ -17,28 +17,25 @@ class BatchViewModel extends StateNotifier<BatchState> {
   addBatch(BatchEntity batch) async {
     state = state.copyWith(isLoading: true);
     var data = await batchUseCase.addBatch(batch);
-
     data.fold((l) {
       state = state.copyWith(isLoading: false, error: l.error);
-      showMySnackBar(message: l.error, color: Colors.red);
+      showMySnackBar(message: l.error, color: Colors.red[800]);
     }, (r) {
       state = state.copyWith(isLoading: false, error: null);
-      showMySnackBar(message: "Batch added successfully", color: Colors.red);
-      
+      showMySnackBar(message: "Batch Added Sucessfully!");
     });
+    getAllBatches();
   }
 
   getAllBatches() async {
     state = state.copyWith(isLoading: true);
     var data = await batchUseCase.getAllBatches();
-
-    data.fold((l){
-      state = state.copyWith(isLoading: false,error: l.error);
-      showMySnackBar(message: l.error, color: Colors.red);
-    }, (r){
+    data.fold((l) {
+      state = state.copyWith(isLoading: false, error: l.error);
+      showMySnackBar(message: l.error, color: Colors.red[800]);
+    }, (r) {
       state = state.copyWith(isLoading: false, lstBatches: r, error: null);
     });
-
   }
 
 }

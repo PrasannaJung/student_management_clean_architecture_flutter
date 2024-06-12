@@ -12,7 +12,8 @@ class HiveService{
   Future<void> init() async{
     var directory = await getApplicationDocumentsDirectory();
     Hive.init(directory.path);
-    Hive.registerAdapter(BatchHiveModelAdapter()); // this is adapter created on the .g.dart file
+    Hive.registerAdapter(BatchHiveModelAdapter());
+    Hive.registerAdapter(CourseHiveModelAdapter());// this is adapter created on the .g.dart file
   }
 
   Future<void> addBatch(BatchHiveModel batch) async {
