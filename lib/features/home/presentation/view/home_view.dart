@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:student_management_starter/features/batch/presentation/view/batch_view.dart';
+import 'package:student_management_starter/features/course/presentation/view/course_view.dart';
 import 'package:student_management_starter/features/home/presentation/view/dashboard_view.dart';
 
 class HomeView extends ConsumerStatefulWidget {
@@ -14,7 +15,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
   int _selectedIndex = 0;
   List<Widget> lstBottomScreen = [
     const DashboardView(),
-    const BatchView()
+    const CourseView(),
+    const BatchView(),
+    const Text("Profile")
   ];
 
   @override
@@ -31,9 +34,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
             label: 'Dashboard',
             icon: Icon(Icons.dashboard),
           ),
+          BottomNavigationBarItem(label: 'Course', icon: Icon(Icons.book)),
+
           BottomNavigationBarItem(label: 'Batch', icon: Icon(Icons.light)),
 
-          BottomNavigationBarItem(label: 'Course', icon: Icon(Icons.book)),
           BottomNavigationBarItem(label: 'Profile', icon: Icon(Icons.person_2)),
         ],
         currentIndex: _selectedIndex,
