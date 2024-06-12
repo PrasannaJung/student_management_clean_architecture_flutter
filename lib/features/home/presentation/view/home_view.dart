@@ -23,7 +23,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: lstBottomScreen[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType
@@ -35,16 +34,16 @@ class _HomeViewState extends ConsumerState<HomeView> {
             icon: Icon(Icons.dashboard),
           ),
           BottomNavigationBarItem(label: 'Course', icon: Icon(Icons.book)),
-
           BottomNavigationBarItem(label: 'Batch', icon: Icon(Icons.light)),
-
           BottomNavigationBarItem(label: 'Profile', icon: Icon(Icons.person_2)),
         ],
         currentIndex: _selectedIndex,
         onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
+          setState(
+            () {
+              _selectedIndex = index;
+            },
+          );
         },
       ),
     );
