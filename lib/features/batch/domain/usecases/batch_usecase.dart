@@ -4,7 +4,6 @@ import 'package:student_management_starter/core/failure/failure.dart';
 import 'package:student_management_starter/features/batch/domain/entity/batch_entity.dart';
 import 'package:student_management_starter/features/batch/domain/repository/batch_repository.dart';
 
-
 final batchUseCaseProvider = Provider((ref) =>
     BatchUseCase(batchRepository: ref.read(batchRepositoryProvider)));
 
