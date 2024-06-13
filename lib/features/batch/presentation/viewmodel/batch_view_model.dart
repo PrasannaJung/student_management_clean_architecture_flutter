@@ -10,7 +10,9 @@ final batchViewModelProvider = StateNotifierProvider<BatchViewModel, BatchState>
 });
 
 class BatchViewModel extends StateNotifier<BatchState> {
-  BatchViewModel(this.batchUseCase) : super(BatchState.initial());
+  BatchViewModel(this.batchUseCase) : super(BatchState.initial()){
+    getAllBatches();
+  }
 
   final BatchUseCase batchUseCase;
 
@@ -24,16 +26,20 @@ class BatchViewModel extends StateNotifier<BatchState> {
       state = state.copyWith(isLoading: false, error: null);
       showMySnackBar(message: "Batch Added Sucessfully!");
     });
+
     getAllBatches();
+
   }
 
   getAllBatches() async {
     state = state.copyWith(isLoading: true);
     var data = await batchUseCase.getAllBatches();
     data.fold((l) {
+      print("Left failed is called");
       state = state.copyWith(isLoading: false, error: l.error);
       showMySnackBar(message: l.error, color: Colors.red[800]);
     }, (r) {
+      print("Right passed is called");
       state = state.copyWith(isLoading: false, lstBatches: r, error: null);
     });
   }

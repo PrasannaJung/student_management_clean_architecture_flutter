@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:student_management_starter/app/constants/api_endpoint.dart';
 import 'package:student_management_starter/core/networking/remote/http_service.dart';
+import 'package:student_management_starter/features/batch/data/dto/get_all_batch_dto.dart';
 import 'package:student_management_starter/features/batch/data/model/batch_api_model.dart';
 import 'package:student_management_starter/features/batch/domain/entity/batch_entity.dart';
 
@@ -39,6 +40,31 @@ class BatchRemoteDataSource {
       return Left(
         Failure(
         error: e.message.toString(),
+        )
+      );
+    }
+  }
+
+  Future<Either<Failure,List<BatchEntity>>> getAllBatches() async {
+    try{
+      var response = await dio.get(ApiEndpoints.getAllBatch);
+
+      if(response.statusCode == 200){
+        GetAllBatchDTO batchAddDTO = GetAllBatchDTO.fromJson(response.data);
+        return Right(batchApiModel.toEntityList(batchAddDTO.data));
+      }else{
+        return Left(
+          Failure(
+            error: response.statusMessage.toString(),
+            statusCode: response.statusCode.toString()
+          )
+        );
+      }
+
+    } on DioException catch(e){
+      return Left(
+        Failure(
+          error: e.error.toString()
         )
       );
     }

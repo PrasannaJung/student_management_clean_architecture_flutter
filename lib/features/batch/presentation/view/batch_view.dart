@@ -46,7 +46,7 @@ class _BatchViewState extends ConsumerState<BatchView> {
                 child: CircularProgressIndicator(),
               )
             } else if (batchState.error != null) ...{
-              Text(batchState.error.toString())
+              Text("${batchState.error} error here")
             } else if (batchState.lstBatches.isEmpty) ...{
               const Text("NO Batches")
             } else ...{
@@ -60,7 +60,7 @@ class _BatchViewState extends ConsumerState<BatchView> {
                         icon: const Icon(Icons.group_outlined),
                         onPressed: () {},
                       ),
-                      title: Text(batches.batchName!),
+                      title: Text(batches.batchName),
                       subtitle: Text(batches.batchId ?? ''),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete_outline),

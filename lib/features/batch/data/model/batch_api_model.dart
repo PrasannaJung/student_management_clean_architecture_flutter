@@ -18,13 +18,13 @@ class BatchApiModel  {
 
   // this function is used to convert the incoming json into the Model
   factory BatchApiModel.fromJson(Map<String, dynamic> json){
-    return BatchApiModel(batchId: json["id"], batchName: json["batchName"]);
+    return BatchApiModel(batchId: json["_id"], batchName: json["batchName"]);
   }
 
   // this function is used to return a json data
   Map<String, dynamic> toJson(){
     return {
-      "_id":batchId,
+      // "_id":batchId,
       "batchName":batchName
     };
   }

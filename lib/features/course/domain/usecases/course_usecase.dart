@@ -4,12 +4,12 @@ import 'package:student_management_starter/core/failure/failure.dart';
 import 'package:student_management_starter/features/course/domain/entity/course_entity.dart';
 import 'package:student_management_starter/features/course/domain/repository/course_repository.dart';
 
-final courceUsecaseProvider = Provider<CourceUsecase>((ref) =>
-    CourceUsecase(courseRepository: ref.read(courseRepositoryProvider)));
+final courseUseCaseProvider = Provider<CourseUseCase>((ref) =>
+    CourseUseCase(courseRepository: ref.read(courseRepositoryProvider)));
 
-class CourceUsecase {
+class CourseUseCase {
   final ICourseRepository courseRepository;
-  CourceUsecase({required this.courseRepository});
+  CourseUseCase({required this.courseRepository});
   Future<Either<Failure, bool>> addCourse(CourseEntity course) {
     return courseRepository.addCourse(course);
   }

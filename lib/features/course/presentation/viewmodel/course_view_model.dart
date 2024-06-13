@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:student_management_starter/core/common/my_snackbar.dart';
 import 'package:student_management_starter/features/course/domain/entity/course_entity.dart';
-import 'package:student_management_starter/features/course/domain/usecases/cource_usecase.dart';
+import 'package:student_management_starter/features/course/domain/usecases/course_usecase.dart';
 import 'package:student_management_starter/features/course/presentation/state/course_state.dart';
 
 final courseViewModelProvider =
     StateNotifierProvider<CourseViewModel, CourseState>((ref) {
-  return CourseViewModel(ref.read(courceUsecaseProvider));
+  return CourseViewModel(ref.read(courseUseCaseProvider));
 });
 
 class CourseViewModel extends StateNotifier<CourseState> {
-  CourseViewModel(this.courceUsecase) : super(CourseState.initial()) {
+  CourseViewModel(this.courseUseCase) : super(CourseState.initial()) {
     getAllCourses();
   }
-  final CourceUsecase courceUsecase;
+  final CourseUseCase courseUseCase;
 
   addCourse(CourseEntity course) async {
     state = state.copyWith(isLoading: true);
-    var data = await courceUsecase.addCourse(course);
+    var data = await courseUseCase.addCourse(course);
     data.fold((l) {
       state = state.copyWith(isLoading: false, error: l.error);
       showMySnackBar(message: l.error, color: Colors.red[800]);
@@ -31,7 +31,7 @@ class CourseViewModel extends StateNotifier<CourseState> {
 
   getAllCourses() async {
     state = state.copyWith(isLoading: true);
-    var data = await courceUsecase.getAllCourses();
+    var data = await courseUseCase.getAllCourses();
     data.fold((l) {
       state = state.copyWith(isLoading: false, error: l.error);
       showMySnackBar(message: l.error, color: Colors.red[800]);
