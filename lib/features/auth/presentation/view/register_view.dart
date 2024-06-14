@@ -3,7 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:student_management_starter/features/auth/domain/entity/auth_entity.dart';
+import 'package:student_management_starter/features/auth/presentation/viewmodel/auth_view_model.dart';
+import 'package:student_management_starter/features/batch/domain/entity/batch_entity.dart';
+import 'package:student_management_starter/features/batch/presentation/viewmodel/batch_view_model.dart';
+import 'package:student_management_starter/features/course/domain/entity/course_entity.dart';
+import 'package:student_management_starter/features/course/presentation/viewmodel/course_view_model.dart';
 
 class RegisterView extends ConsumerStatefulWidget {
   const RegisterView({super.key});
@@ -41,15 +48,22 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
 
   final _key = GlobalKey<FormState>();
 
-  final _fnameController = TextEditingController();
-  final _lnameController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _fnameController = TextEditingController(text: 'kiran');
+  final _lnameController = TextEditingController(text: 'kiran123');
+  final _phoneController = TextEditingController(text: '989898989898');
+  final _usernameController = TextEditingController(text: 'kiran');
+  final _passwordController = TextEditingController(text: 'kiran123');
 
   bool isObscure = true;
+
+  BatchEntity? _dropDownValue;
+  final List<CourseEntity> _lstCourseSelected = [];
+
   @override
   Widget build(BuildContext context) {
+    var batchState = ref.watch(batchViewModelProvider);
+    var courseState = ref.watch(courseViewModelProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Register'),
@@ -154,78 +168,81 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                     }),
                   ),
                   _gap,
-                  // if (batchState.isLoading) ...{
-                  //   const Center(
-                  //     child: CircularProgressIndicator(),
-                  //   )
-                  // } else if (batchState.error != null) ...{
-                  //   Center(
-                  //     child: Text(batchState.error!),
-                  //   )
-                  // } else ...{
-                  //   DropdownButtonFormField<BatchEntity>(
-                  //     items: batchState.batches
-                  //         .map((e) => DropdownMenuItem<BatchEntity>(
-                  //               value: e,
-                  //               child: Text(e.batchName),
-                  //             ))
-                  //         .toList(),
-                  //     onChanged: (value) {
-                  //       _dropDownValue = value;
-                  //     },
-                  //     value: _dropDownValue,
-                  //     decoration: const InputDecoration(
-                  //       labelText: 'Select Batch',
-                  //     ),
-                  //     validator: ((value) {
-                  //       if (value == null) {
-                  //         return 'Please select batch';
-                  //       }
-                  //       return null;
-                  //     }),
-                  //   ),
-                  // },
+                  if (batchState.isLoading) ...{
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  } else if (batchState.error != null) ...{
+                    Center(
+                      child: Text(batchState.error!),
+                    )
+                  } else ...{
+                    DropdownButtonFormField<BatchEntity>(
+                      items: batchState.lstBatches
+                          .map((e) => DropdownMenuItem<BatchEntity>(
+                                value: e,
+                                child: Text(e.batchName),
+                              ))
+                          .toList(),
+                      onChanged: (value) {
+                        _dropDownValue = value;
+                      },
+                      value: _dropDownValue,
+                      decoration: const InputDecoration(
+                        labelText: 'Select Batch',
+                      ),
+                      validator: ((value) {
+                        if (value == null) {
+                          return 'Please select batch';
+                        }
+                        return null;
+                      }),
+                    ),
+                  },
                   _gap,
-                  // if (courseState.isLoading) ...{
-                  //   const Center(
-                  //     child: CircularProgressIndicator(),
-                  //   )
-                  // } else if (courseState.error != null) ...{
-                  //   Center(
-                  //     child: Text(courseState.error!),
-                  //   )
-                  // } else ...{
-                  //   MultiSelectDialogField(
-                  //     title: const Text('Select course'),
-                  //     items: courseState.courses
-                  //         .map(
-                  //           (course) => MultiSelectItem(
-                  //             course,
-                  //             course.courseName,
-                  //           ),
-                  //         )
-                  //         .toList(),
-                  //     listType: MultiSelectListType.CHIP,
-                  //     buttonText: const Text('Select course'),
-                  //     buttonIcon: const Icon(Icons.search),
-                  //     onConfirm: (values) {
-                  //       _lstCourseSelected.clear();
-                  //       _lstCourseSelected.addAll(values);
-                  //     },
-                  //     decoration: BoxDecoration(
-                  //       border: Border.all(
-                  //         color: Colors.grey,
-                  //       ),
-                  //       borderRadius: BorderRadius.circular(5),
-                  //     ),
-                  //     validator: ((value) {
-                  //       if (value == null || value.isEmpty) {
-                  //         return 'Please select courses';
-                  //       }
-                  //       return null;
-                  //     }),
-                  //   ),
-                  // },
+                  if (courseState.isLoading) ...{
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  } else if (courseState.error != null) ...{
+                    Center(
+                      child: Text(courseState.error!),
+                    )
+                  } else ...{
+                    MultiSelectDialogField(
+                      title: const Text('Select course'),
+                      items: courseState.lst
+                          .map(
+                            (course) => MultiSelectItem(
+                              course,
+                              course.courseName,
+                            ),
+                          )
+                          .toList(),
+                      listType: MultiSelectListType.CHIP,
+                      buttonText: const Text(
+                        'Select course',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      buttonIcon: const Icon(Icons.search),
+                      onConfirm: (values) {
+                        _lstCourseSelected.clear();
+                        _lstCourseSelected.addAll(values);
+                      },
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black87,
+                        ),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      validator: ((value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please select courses';
+                        }
+                        return null;
+                      }),
+                    ),
+                  },
                   _gap,
                   TextFormField(
                     controller: _usernameController,
@@ -264,12 +281,30 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                     }),
                   ),
                   _gap,
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_key.currentState!.validate()) {
+                          var student = AuthEntity(
+                            fname: _fnameController.text,
+                            lname: _lnameController.text,
+                            image:
+                                ref.read(authViewModelProvider).imageName ?? '',
+                            phone: _phoneController.text,
+                            username: _usernameController.text,
+                            password: _passwordController.text,
+                            batch: _dropDownValue!,
+                            courses: _lstCourseSelected,
+                          );
 
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_key.currentState!.validate()) {}
-                    },
-                    child: const Text('Register'),
+                          ref
+                              .read(authViewModelProvider.notifier)
+                              .registerStudent(student);
+                        }
+                      },
+                      child: const Text('Register'),
+                    ),
                   ),
                 ],
               ),

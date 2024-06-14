@@ -35,4 +35,10 @@ class CourseHiveModel {
   List<CourseEntity> toCourseEntityList(List<CourseHiveModel> lst) {
     return lst.map((model) => model.toEntity()).toList();
   }
+
+  // to hive model
+  List<CourseHiveModel> fromEntityList(List<CourseEntity> entities) {
+    return entities.map((entity) => fromEntity(entity)).toList();
+  }
+
 }

@@ -7,6 +7,5 @@ class CourseEntity extends Equatable {
   const CourseEntity({required this.courseName, this.courseId});
 
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [courseId,courseName];
 }

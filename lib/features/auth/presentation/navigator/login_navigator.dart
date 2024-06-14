@@ -4,13 +4,12 @@ import 'package:student_management_starter/features/auth/presentation/navigator/
 import 'package:student_management_starter/features/auth/presentation/view/login_view.dart';
 import 'package:student_management_starter/features/home/presentation/navigator/home_navigator.dart';
 
-// to go to the register view
 final loginViewNavigatorProvider = Provider((ref) => LoginViewNavigator());
 
-class LoginViewNavigator with RegisterViewRoute, HomeViewRoute{}
+class LoginViewNavigator with RegisterViewRoute, HomeViewRoute {}
 
-mixin LoginViewRoute{
-  openLoginView(){
-    NavigateRoute.pushRoute(const LoginView());
+mixin LoginViewRoute {
+  openLoginView() {
+    NavigateRoute.popAndPushRoute(const LoginView());
   }
 }
