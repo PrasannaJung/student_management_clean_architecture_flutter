@@ -2,8 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student_management_starter/features/auth/presentation/view/register_view.dart';
-import 'package:student_management_starter/features/auth/presentation/viewmodel/login_view_model.dart';
+import 'package:student_management_starter/features/auth/presentation/viewmodel/auth_view_model.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
@@ -17,8 +16,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
   final _usernameController = TextEditingController(text: 'kiran');
   final _passwordController = TextEditingController(text: 'kiran123');
 
-  // final _usernameController = TextEditingController();
-  // final _passwordController = TextEditingController();
   final _gap = const SizedBox(height: 8);
   bool isObscure = true;
   @override
@@ -84,9 +81,12 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          ref
-                              .read(loginViewModelProvider.notifier)
-                              .openDashboard();
+                          await ref
+                              .read(authViewModelProvider.notifier)
+                              .loginStudent(
+                                _usernameController.text,
+                                _passwordController.text,
+                              );
                         }
                       },
                       child: const SizedBox(
@@ -106,9 +106,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     ElevatedButton(
                       key: const ValueKey('registerButton'),
                       onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => const RegisterView(),
-                        ));
+                        ref
+                            .read(authViewModelProvider.notifier)
+                            .openRegisterView();
                       },
                       child: const SizedBox(
                         height: 50,
