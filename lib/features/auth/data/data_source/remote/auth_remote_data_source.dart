@@ -2,8 +2,14 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:student_management_starter/app/constants/api_endpoint.dart';
 import 'package:student_management_starter/core/failure/failure.dart';
+import 'package:student_management_starter/core/networking/remote/http_service.dart';
+
+final authRemoteDataSourceProvider = Provider(
+      (ref) => AuthRemoteDataSource(dio: ref.read(httpServiceProvider)),
+);
 
 class AuthRemoteDataSource {
   final Dio dio;
